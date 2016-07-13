@@ -38,8 +38,8 @@ function publish()
     local version=$(oasis query version)
     local release=$service-${version}
     local uri="https://github.com/inhabitedtype/ocaml-aws/releases/download/$AWS_RELEASE/$release.tar.gz"
-    echo "== $release"
-    local dir=${release/-/.}
+    local dir="$service.$version"
+    echo "== $dir"
     mkdir -p $dir
     cp -r opam/* $dir
     rm $dir/findlib
