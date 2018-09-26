@@ -5,11 +5,13 @@ script: bash -ex .travis-opam.sh
 env:
   global:
   - PINS="aws:. aws-async:. aws-lwt:. aws_gen:."
-  - PINS="cohttp-top:. cohttp-async:. cohttp-lwt-unix:. cohttp-lwt-jsoo:. cohttp-lwt:. cohttp-mirage:. cohttp:."
   matrix:
-  - OCAML_VERSION=4.02 DEPOPTS="lwt ssl async async_ssl cohttp"
-  - OCAML_VERSION=4.03 DEPOPTS="lwt ssl async async_ssl cohttp cohttp-lwt-unix cohttp-async"
-  - OCAML_VERSION=4.04 DEPOPTS="lwt ssl async async_ssl cohttp cohttp-lwt-unix cohttp-async"
-  - OCAML_VERSION=4.05 DEPOPTS="lwt ssl async async_ssl cohttp cohttp-lwt-unix cohttp-async"
+  - OCAML_VERSION=4.03 PACKAGE="aws" DEPOPTS="lwt ssl async async_ssl cohttp cohttp-lwt-unix cohttp-async"
+  - OCAML_VERSION=4.03 PACKAGE="aws-lwt" DEPOPTS="lwt ssl async async_ssl cohttp cohttp-lwt-unix cohttp-async"
+  - OCAML_VERSION=4.03 PACKAGE="aws-async" DEPOPTS="lwt ssl async async_ssl cohttp cohttp-lwt-unix cohttp-async"
+  - OCAML_VERSION=4.03 PACKAGE="aws_gen" DEPOPTS="lwt ssl async async_ssl cohttp cohttp-lwt-unix cohttp-async"
+
+  # - OCAML_VERSION=4.04 DEPOPTS="lwt ssl async async_ssl cohttp cohttp-lwt-unix cohttp-async"
+  # - OCAML_VERSION=4.05 DEPOPTS="lwt ssl async async_ssl cohttp cohttp-lwt-unix cohttp-async"
 os:
   - linux
