@@ -1,15 +1,17 @@
 language: c
-sudo: required
-install: wget https://raw.githubusercontent.com/ocaml/ocaml-ci-scripts/master/.travis-opam.sh
-script: bash -ex .travis-opam.sh
+sudo: false
+services:
+  - docker
+install: wget https://raw.githubusercontent.com/ocaml/ocaml-travisci-skeleton/master/.travis-docker.sh
+script: bash -ex ./.travis-docker.sh
 env:
   global:
   - PINS="aws:. aws-async:. aws-lwt:. aws_gen:."
   matrix:
-  - OCAML_VERSION=4.03 PACKAGE="aws" DEPOPTS="lwt ssl async async_ssl cohttp cohttp-lwt-unix cohttp-async"
-  - OCAML_VERSION=4.03 PACKAGE="aws-lwt" DEPOPTS="lwt ssl async async_ssl cohttp cohttp-lwt-unix cohttp-async"
-  - OCAML_VERSION=4.03 PACKAGE="aws-async" DEPOPTS="lwt ssl async async_ssl cohttp cohttp-lwt-unix cohttp-async"
-  - OCAML_VERSION=4.03 PACKAGE="aws_gen" DEPOPTS="lwt ssl async async_ssl cohttp cohttp-lwt-unix cohttp-async"
+  - OCAML_VERSION="4.03" PACKAGE="aws" DISTRO="ubuntu-18.04" DEPOPTS="lwt ssl async async_ssl cohttp cohttp-lwt-unix cohttp-async"
+  - OCAML_VERSION="4.03" PACKAGE="aws-lwt" DISTRO="ubuntu-18.04" DEPOPTS="lwt ssl async async_ssl cohttp cohttp-lwt-unix cohttp-async"
+  - OCAML_VERSION="4.03" PACKAGE="aws-async" DISTRO="ubuntu-18.04" DEPOPTS="lwt ssl async async_ssl cohttp cohttp-lwt-unix cohttp-async"
+  - OCAML_VERSION="4.03" PACKAGE="aws_gen" DISTRO="ubuntu-18.04" DEPOPTS="lwt ssl async async_ssl cohttp cohttp-lwt-unix cohttp-async"
 
   # - OCAML_VERSION=4.04 DEPOPTS="lwt ssl async async_ssl cohttp cohttp-lwt-unix cohttp-async"
   # - OCAML_VERSION=4.05 DEPOPTS="lwt ssl async async_ssl cohttp cohttp-lwt-unix cohttp-async"
