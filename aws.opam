@@ -31,7 +31,6 @@ conflicts: [
   "cohttp" {< "0.17.0"}
   "cohttp" {>="0.99"}
 ]
-
 synopsis: "Amazon Web Services SDK"
 description: """
 Amazon Web Services SDK

@@ -4,7 +4,7 @@ authors: [ "Spiros Eliopoulos <spiros@inhabitedtype.com>"
            "Daniel Patterson <dbp@dbpmail.net>" ]
 license: "BSD-3-clause"
 homepage: "https://github.com/inhabitedtype/ocaml-aws"
-dev-repo: "https://github.com/inhabitedtype/ocaml-aws.git"
+dev-repo: "git+https://github.com/inhabitedtype/ocaml-aws.git"
 bug-reports: "https://github.com/inhabitedtype/ocaml-aws/issues"
 build: [
   ["dune" "subst"] {pinned}
@@ -17,4 +17,3 @@ depends: [
   "ocaml-migrate-parsetree"
   "dune" {build}
 ]
-available: [ ocaml-version >= "4.02" ]
