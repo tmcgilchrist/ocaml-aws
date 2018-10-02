@@ -6,7 +6,8 @@ install: wget https://raw.githubusercontent.com/ocaml/ocaml-travisci-skeleton/ma
 script: bash -ex ./.travis-docker.sh
 env:
   global:
-  - PINS="aws:. aws-async:. aws-lwt:. aws_gen:."
+  - PINS="aws:. aws-lwt:."
+  - DEPOPTS="github-unix"
   matrix:
   - PACKAGE="aws"       DISTRO="ubuntu-18.04" OCAML_VERSION="4.03"
   - PACKAGE="aws-lwt"   DISTRO="ubuntu-18.04" OCAML_VERSION="4.03"
