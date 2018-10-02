@@ -2,6 +2,14 @@ opam-version: "2.0"
 maintainer: "Spiros Eliopoulos <spiros@inhabitedtype.com>"
 authors: [ "Spiros Eliopoulos <spiros@inhabitedtype.com>"
            "Daniel Patterson <dbp@dbpmail.net>" ]
+synopsis: "Amazon Web Services SDK"
+description: """
+Amazon Web Services SDK
+ocaml-aws is an Amazon Web Services SDK for OCaml. Its source
+distribution includes a core runtime API and a code generation tool
+that generates individual libraries from [botocore][] service
+descriptions.
+"""
 license: "BSD-3-clause"
 homepage: "https://github.com/inhabitedtype/ocaml-aws"
 dev-repo: "git+https://github.com/inhabitedtype/ocaml-aws.git"
@@ -14,28 +22,6 @@ depends: [
   "calendar"
   "ezxmlm"
   "nocrypto"
-  "ocamlfind" {build}
-  "odoc" {build}
+  "dune" {build}
   "uri" {>= "1.4.0"}
 ]
-depopts: [
-  "async"
-  "async_ssl"
-  "base-threads"
-  "base-unix"
-  "cohttp"
-  "lwt"
-  "ssl"
-]
-conflicts: [
-  "cohttp" {< "0.17.0"}
-  "cohttp" {>="0.99"}
-]
-synopsis: "Amazon Web Services SDK"
-description: """
-Amazon Web Services SDK
-ocaml-aws is an Amazon Web Services SDK for OCaml. Its source
-distribution includes a core runtime API and a code generation tool
-that generates individual libraries from [botocore][] service
-descriptions.
-"""
