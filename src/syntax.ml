@@ -36,7 +36,7 @@ open Ast_404
 
 open Parsetree
 open Ast_helper
-open Ast_convenience
+open Ast_convenience_404
 open Asttypes
 
 let strloc txt = { txt; loc = !default_loc }
