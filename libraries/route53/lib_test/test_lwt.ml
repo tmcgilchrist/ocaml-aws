@@ -1,4 +1,4 @@
-open Aws_cloudwatch_test
+open Aws_route53_test
 
 module T = TestSuite(struct
     type 'a m = 'a Lwt.t
