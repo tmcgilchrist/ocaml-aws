@@ -41,7 +41,7 @@ LIBRARIES := \
 	aws-s3  \
 	aws-route53 \
 	aws-sqs \
-	aws-dynamo \
+	aws-dynamodb \
 
 .PHONY: $(LIBRARIES)
 $(LIBRARIES): aws-%:
