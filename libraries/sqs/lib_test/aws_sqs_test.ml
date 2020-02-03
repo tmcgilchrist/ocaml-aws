@@ -1,9 +1,6 @@
 open OUnit
 open Aws_sqs
 
-(* TODO Maybe load this from ENV variable *)
-let test_region = "us-east-1"
-
 let from_opt = function
   | None -> assert false
   | Some(x) -> x
@@ -11,8 +8,7 @@ let from_opt = function
 module TestSuite(Runtime : sig
     type 'a m
     val run_request :
-      region:string
-      -> (module Aws.Call with type input = 'input
+      (module Aws.Call with type input = 'input
                            and type output = 'output
                            and type error = 'error)
       -> 'input
@@ -20,23 +16,23 @@ module TestSuite(Runtime : sig
     val un_m : 'a m -> 'a
   end) = struct
 
-  let delete_queue queue_url region =
-    Runtime.(un_m (run_request ~region
+  let delete_queue queue_url =
+    Runtime.(un_m (run_request
                      (module DeleteQueue)
                      (Types.DeleteQueueRequest.make ~queue_url ())))
 
-  let create_queue queue_name region =
-    Runtime.(un_m (run_request ~region
+  let create_queue queue_name =
+    Runtime.(un_m (run_request
                      (module CreateQueue)
                      (Types.CreateQueueRequest.make ~queue_name ())))
 
-  let send_message queue_url region message_body =
-    Runtime.(un_m (run_request ~region
+  let send_message queue_url message_body =
+    Runtime.(un_m (run_request
                      (module SendMessage)
                      (Types.SendMessageRequest.make ~queue_url ~message_body ())))
 
-  let receive_message queue_url region =
-    Runtime.(un_m (run_request ~region
+  let receive_message queue_url =
+    Runtime.(un_m (run_request
                      (module ReceiveMessage)
                      (Types.ReceiveMessageRequest.make ~queue_url ())))
 
@@ -80,7 +76,7 @@ genSQSText =
       ~name:"SQS create / delete queue"
       QCheck.(QCheck.make @@ QCheck.Gen.pair arb_queue_name arb_message)
       (fun (queue_name, test_message) ->
-        let create_res = create_queue queue_name test_region in
+        let create_res = create_queue queue_name in
 
         match create_res with
         | `Ok resp ->
@@ -93,19 +89,19 @@ genSQSText =
           | `Ok resp -> from_opt resp.queue_url
           | `Error err -> assert false
         in
-        let send_message = send_message queue_url test_region test_message in
+        let send_message = send_message queue_url test_message in
         match send_message with
         | `Ok resp -> true
         | `Error err ->
            Printf.printf "Error: %s\n" (Aws.Error.format Errors_internal.to_string err)
           ;
-        let receive_message = receive_message queue_url test_region in
+        let receive_message = receive_message queue_url in
         match receive_message with
         | `Ok resp -> true
         | `Error err ->
            Printf.printf "Error: %s\n" (Aws.Error.format Errors_internal.to_string err)
           ;
-        let delete_res = delete_queue queue_url test_region in
+        let delete_res = delete_queue queue_url in
            match delete_res with
            | `Ok resp -> true
            | `Error err ->
@@ -113,14 +109,12 @@ genSQSText =
               false
       )
 
-  (* TODO refactor to assert sent message is the received message *)
-
   let create_delete_queue_test =
     QCheck.Test.make ~count:1
     ~name:"SQS create / delete queue"
     QCheck.(QCheck.make arb_queue_name)
     (fun queue_name ->
-      let create_res = create_queue queue_name test_region in
+      let create_res = create_queue queue_name in
 
       match create_res with
          | `Ok resp ->
@@ -134,7 +128,7 @@ genSQSText =
         | `Error err -> assert false
       in
 
-      let delete_res = delete_queue queue_url test_region in
+      let delete_res = delete_queue queue_url in
       match delete_res with
       | `Ok resp -> true
       | `Error err ->
