@@ -13,8 +13,8 @@
  (locks  m)
  (action (run %{deps})))
 
-;(alias
-; (name runtest)
-; (deps test_lwt.exe)
-; (locks  m)
-; (action (run %{deps})))
+(alias
+ (name runtest)
+ (deps test_lwt.exe)
+ (locks  m)
+ (action (run %{deps})))
