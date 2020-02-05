@@ -36,37 +36,28 @@ module TestSuite(Runtime : sig
                      (module ReceiveMessage)
                      (Types.ReceiveMessageRequest.make ~queue_url ())))
 
-  (* TODO
+  (*
      This only generates simple queue names, it should generate the
      full range of allowable queue_names as per the AWS spec.
 
+     QueueName
+     The name of the new queue. The following limits apply to this name:
 
-QueueName
-The name of the new queue. The following limits apply to this name:
-
-A queue name can have up to 80 characters.
-Valid values: alphanumeric characters, hyphens (-), and underscores (_).
-A FIFO queue name must end with the .fifo suffix.
-
+     A queue name can have up to 80 characters.
+     Valid values: alphanumeric characters, hyphens (-), and underscores (_).
+     A FIFO queue name must end with the .fifo suffix.
    *)
   let arb_queue_name =
     QCheck.Gen.oneofl Aws_test.Corpus.cooking
 
-  (* TODO Write a better message generator
-data NonEmptyMessage = NonEmptyMessage {
-    unMessage :: Text
-  } deriving (Eq, Show)
+  (*
+     Immprove this to generate the full range of valid messages.
 
-instance Arbitrary NonEmptyMessage where
-  arbitrary = do
-    -- http://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/API_SendMessage.html
-    -- invalid unicode values #x9 | #xA | #xD | [#x20 to #xD7FF] | [#xE000 to #xFFFD] | [#x10000 to #x10FFFF]
-    NonEmptyMessage <$> genSQSText
+     http://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/API_SendMessage.html
+     invalid unicode values #x9 | #xA | #xD | [#x20 to #xD7FF] | [#xE000 to #xFFFD] | [#x10000 to #x10FFFF]
 
-genSQSText :: Gen Text
-genSQSText =
-           let invalid = P.concat [['\x9'],['\xA'],['\xD'], ['\x20'..'\xD7FF'], ['\xE000'..'\xFFFD'], ['\x10000'..'\x10FFFF']]
-           in suchThat (pack . P.filter (\x -> P.elem x invalid) <$> arbitrary) (not . Data.Text.null)
+     let invalid = P.concat [['\x9'],['\xA'],['\xD'], ['\x20'..'\xD7FF'], ['\xE000'..'\xFFFD'], ['\x10000'..'\x10FFFF']]
+     in (pack . List.filter (\x -> P.elem x invalid) <$> utf8_char)
    *)
   let arb_message =
     QCheck.Gen.oneofl Aws_test.Corpus.agile
