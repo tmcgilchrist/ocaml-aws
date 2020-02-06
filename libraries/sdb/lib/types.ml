@@ -2,6 +2,9 @@ open Aws
 open Aws.BaseTypes
 open CalendarLib
 type calendar = Calendar.t
+(**
+
+*)
 module ReplaceableAttribute =
   struct
     type t = {
@@ -50,7 +53,7 @@ module Attribute =
       alternate_name_encoding: String.t option ;
       value: String.t ;
       alternate_value_encoding: String.t option }
-    let make ~name  ?alternate_name_encoding  ~value 
+    let make ~name  ?alternate_name_encoding  ~value
       ?alternate_value_encoding  () =
       { name; alternate_name_encoding; value; alternate_value_encoding }
     let parse xml =
@@ -457,7 +460,7 @@ module GetAttributesRequest =
       item_name: String.t ;
       attribute_names: AttributeNameList.t ;
       consistent_read: Boolean.t option }
-    let make ~domain_name  ~item_name  ?(attribute_names= []) 
+    let make ~domain_name  ~item_name  ?(attribute_names= [])
       ?consistent_read  () =
       { domain_name; item_name; attribute_names; consistent_read }
     let parse xml =
@@ -947,8 +950,8 @@ module DomainMetadataResult =
       attribute_value_count: Integer.t option ;
       attribute_values_size_bytes: Long.t option ;
       timestamp: Integer.t option }
-    let make ?item_count  ?item_names_size_bytes  ?attribute_name_count 
-      ?attribute_names_size_bytes  ?attribute_value_count 
+    let make ?item_count  ?item_names_size_bytes  ?attribute_name_count
+      ?attribute_names_size_bytes  ?attribute_value_count
       ?attribute_values_size_bytes  ?timestamp  () =
       {
         item_count;

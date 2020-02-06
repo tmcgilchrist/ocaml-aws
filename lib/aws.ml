@@ -434,7 +434,16 @@ module Signing = struct
       let joined = List.map (fun (k,v) -> k ^ "=" ^ v) sorted in
       String.concat "&" joined
 
-    (* NOTE(dbp 2015-01-13): This is a direct translation of reference implementation at:
+    (**
+     * AWS Signature Version 4.
+     *
+     * NOTE:
+     * AWS supports two signature versions: Signature Version 4 and Signature Version 2.
+     * You should use Signature Version 4. All AWS services support Signature Version 4,
+     * except Amazon SimpleDB which requires Signature Version 2. For AWS services that
+     * support both versions, we recommend that you use Signature Version 4.
+     *
+     * NOTE(dbp 2015-01-13): This is a direct translation of reference implementation at:
      * http://docs.aws.amazon.com/general/latest/gr/sigv4-signed-request-examples.html
      *)
     let sign_request ~access_key ~secret_key ~service ~region (meth, uri, headers) =
@@ -457,9 +466,9 @@ module Signing = struct
       let string_to_sign = algorithm ^ "\n" ^  amzdate ^ "\n" ^  credential_scope ^ "\n" ^  Hash.sha256_hex canonical_request in
       let signing_key = get_signature_key secret_key datestamp region service in
       let signature = Hash.sha256_hex ~key:signing_key string_to_sign in
-      let authorization_header = String.concat "" [algorithm; " "; "Credential="; access_key; "/"; credential_scope; ", "; "SignedHeaders="; signed_headers; ", "; "Signature="; signature] in
+      let authorization_header = String.concat "" [algorithm; " "; "Credential="; access_key; "/"; credential_scope; ", "
+                                                   ; "SignedHeaders="; signed_headers; ", "; "Signature="; signature
+                                                   ; "SignatureVersion=4"] in
       let headers = ("x-amz-date", amzdate) :: ("x-amz-content-sha256", payload_hash) :: ("Authorization", authorization_header) :: headers in
       (meth, uri, headers)
   end
-
-
