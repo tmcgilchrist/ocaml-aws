@@ -5,3 +5,7 @@ let rec suchThat (gen : 'a QCheck.Gen.t) (p : 'a -> bool) : ('a QCheck.Gen.t) =
   gen >>= function mx -> match p mx with
                          | true ->  pure mx
                          | false -> suchThat gen p
+
+let from_opt = function
+  | None -> assert false
+  | Some(x) -> x
