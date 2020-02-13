@@ -1,10 +1,6 @@
 open OUnit
 open Aws_sqs
 
-let from_opt = function
-  | None -> assert false
-  | Some(x) -> x
-
 module TestSuite(Runtime : sig
     type 'a m
     val run_request :
@@ -82,7 +78,7 @@ module TestSuite(Runtime : sig
            Printf.printf "Error: %s\n" (Aws.Error.format Errors_internal.to_string err)
           ;
         let queue_url = match create_res with
-          | `Ok resp -> from_opt resp.queue_url
+          | `Ok resp -> Aws_test.from_opt resp.queue_url
           | `Error err -> assert false
         in
         let send_message = send_message queue_url test_message in
@@ -121,7 +117,7 @@ module TestSuite(Runtime : sig
             Printf.printf "Error: %s\n" (Aws.Error.format Errors_internal.to_string err)
            ;
       let queue_url = match create_res with
-        | `Ok resp -> from_opt resp.queue_url
+        | `Ok resp -> Aws_test.from_opt resp.queue_url
         | `Error err -> assert false
       in
 
